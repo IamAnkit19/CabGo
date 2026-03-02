@@ -1,0 +1,6 @@
+/* Global app overrides for CabBookingApplication */
+
+#root {
+  margin: 0;
+  padding: 0;
+}
