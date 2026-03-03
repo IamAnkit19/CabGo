@@ -13,9 +13,17 @@ exports.getAllCars = async (req, res) => {
 // Add a new cab to the system
 exports.addCar = async (req, res) => {
     try {
+        let filename = null;
+        let imageUrl = null;
+        if (req.file) {
+            filename = req.file.filename;
+            imageUrl = `${req.protocol}://${req.get('host')}/uploads/${filename}`;
+        }
+
         const carData = {
             ...req.body,
-            carImage: req.file ? req.file.filename : null // Save filename if uploaded
+            carImage: filename,
+            carImageUrl: imageUrl
         };
         const car = await Car.create(carData);
         res.status(201).json({ success: true, car });
@@ -29,7 +37,9 @@ exports.updateCar = async (req, res) => {
     try {
         const updateData = { ...req.body };
         if (req.file) {
-            updateData.carImage = req.file.filename; // Update image only if a new one is uploaded
+            const filename = req.file.filename;
+            updateData.carImage = filename;
+            updateData.carImageUrl = `${req.protocol}://${req.get('host')}/uploads/${filename}`;
         }
 
         const updatedCar = await Car.findByIdAndUpdate(req.params.id, updateData, { new: true });

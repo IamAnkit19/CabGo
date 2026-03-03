@@ -36,7 +36,7 @@ const Cabs = () => {
                         const imgSrc = car.carImageUrl
                             ? car.carImageUrl
                             : car.carImage
-                            ? `http://localhost:8000/uploads/${car.carImage}`
+                            ? `https://cabgo.onrender.com/uploads/${car.carImage}`
                             : 'https://placehold.co/400x200?text=No+Image';
                         return (
                         <div key={car._id} className="bg-white rounded-xl overflow-hidden shadow-sm border hover:shadow-lg transition">
