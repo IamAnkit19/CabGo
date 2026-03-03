@@ -132,7 +132,7 @@ const BookCab = () => {
                 <div className="grid md:grid-cols-2 gap-6">
                     <div className="bg-white rounded-xl shadow-sm border p-6 order-2 md:order-1">
                         <img
-                            src={car.carImage ? `http://localhost:8000/uploads/${car.carImage}` : 'https://placehold.co/400x200?text=No+Image'}
+                            src={car.carImageUrl ? car.carImageUrl : car.carImage ? `http://localhost:8000/uploads/${car.carImage}` : 'https://placehold.co/400x200?text=No+Image'}
                             className="rounded-lg mb-4 w-full h-40 object-cover"
                             alt={car.carname}
                         />

@@ -32,10 +32,16 @@ const Cabs = () => {
                     </div>
                 ) : (
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {cars.map((car) => (
+                    {cars.map((car) => {
+                        const imgSrc = car.carImageUrl
+                            ? car.carImageUrl
+                            : car.carImage
+                            ? `http://localhost:8000/uploads/${car.carImage}`
+                            : 'https://placehold.co/400x200?text=No+Image';
+                        return (
                         <div key={car._id} className="bg-white rounded-xl overflow-hidden shadow-sm border hover:shadow-lg transition">
                             <img 
-                                src={car.carImage ? `http://localhost:8000/uploads/${car.carImage}` : 'https://placehold.co/400x200?text=No+Image'} 
+                                src={imgSrc}
                                 alt={car.carname} 
                                 className="w-full h-48 object-cover"
                             />
@@ -58,7 +64,7 @@ const Cabs = () => {
                                 </div>
                             </div>
                         </div>
-                    ))}
+                    )})}
                 </div>
                 )}
             </div>
