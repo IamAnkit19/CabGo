@@ -16,7 +16,7 @@ A full-stack cab booking application with real-time map integration, location se
 ## Tech Stack
 
 - **Frontend**: React 19, Vite, Tailwind CSS, Leaflet, Axios
-- **Backend**: Node.js, Express, MongoDB, JWT
+- **Backend**: Node.js, Express, MongoDB, JWT, Supabase (Storage)
 - **Maps**: OpenStreetMap, Nominatim (geocoding), OSRM (routing)
 
 ## Quick Start
@@ -25,7 +25,7 @@ A full-stack cab booking application with real-time map integration, location se
 
 - Node.js 18+
 - MongoDB (local or Atlas)
-- `.env` in Server folder with `MONGO_URI` and `JWT_SECRET`
+- `.env` in Server folder with `MONGO_URI`, `JWT_SECRET`, `SUPABASE_URL`, and `SUPABASE_ANON_KEY`
 
 ### Backend
 
