@@ -28,13 +28,6 @@ app.use('/api/driver', driverRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/cars', carRoutes);
 
-// Static folder for file uploads (as per your architecture)
-const uploadDir = path.join(__dirname, 'uploads');
-if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir);
-}
-app.use('/uploads', express.static(uploadDir));
-
 // Placeholder for Routes
 app.get('/', (req, res) => res.send('API is running...'));
 

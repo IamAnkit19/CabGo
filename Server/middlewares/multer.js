@@ -1,17 +1,8 @@
 const multer = require('multer');
 const path = require('path');
 
-// Configure how files are stored
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        // Points to the uploads/ folder defined in your architecture
-        cb(null, 'uploads/');
-    },
-    filename: (req, file, cb) => {
-        // Renames file to: fieldname-timestamp.extension
-        cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
-    }
-});
+// Configure how files are stored (in memory for Supabase upload)
+const storage = multer.memoryStorage();
 
 // Validate file types (only images allowed)
 const fileFilter = (req, file, cb) => {

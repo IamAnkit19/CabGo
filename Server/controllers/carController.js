@@ -1,6 +1,5 @@
 const Car = require('../models/CarSchema');
-
-// Fetch all cars for the 'Cabs' component
+const supabase = require('../db/supabase');// Fetch all cars for the 'Cabs' component
 exports.getAllCars = async (req, res) => {
     try {
         const cars = await Car.find();
@@ -16,8 +15,27 @@ exports.addCar = async (req, res) => {
         let filename = null;
         let imageUrl = null;
         if (req.file) {
-            filename = req.file.filename;
-            imageUrl = `${req.protocol}://${req.get('host')}/uploads/${filename}`;
+            const file = req.file;
+            filename = `${Date.now()}-${file.originalname.replace(/\s+/g, '-')}`;
+            
+            // Upload to Supabase bucket 'cars'
+            const { data, error } = await supabase.storage
+                .from('cars')
+                .upload(filename, file.buffer, {
+                    contentType: file.mimetype,
+                });
+
+            if (error) {
+                console.error("Supabase Upload Error:", error);
+                throw new Error("Failed to upload image to Supabase.");
+            }
+
+            // Get public URL
+            const { data: publicUrlData } = supabase.storage
+                .from('cars')
+                .getPublicUrl(filename);
+                
+            imageUrl = publicUrlData.publicUrl;
         }
 
         const carData = {
@@ -37,9 +55,28 @@ exports.updateCar = async (req, res) => {
     try {
         const updateData = { ...req.body };
         if (req.file) {
-            const filename = req.file.filename;
+            const file = req.file;
+            const filename = `${Date.now()}-${file.originalname.replace(/\s+/g, '-')}`;
+            
+            // Upload to Supabase bucket 'cars'
+            const { data, error } = await supabase.storage
+                .from('cars')
+                .upload(filename, file.buffer, {
+                    contentType: file.mimetype,
+                });
+
+            if (error) {
+                console.error("Supabase Upload Error:", error);
+                throw new Error("Failed to upload image to Supabase.");
+            }
+
+            // Get public URL
+            const { data: publicUrlData } = supabase.storage
+                .from('cars')
+                .getPublicUrl(filename);
+                
             updateData.carImage = filename;
-            updateData.carImageUrl = `${req.protocol}://${req.get('host')}/uploads/${filename}`;
+            updateData.carImageUrl = publicUrlData.publicUrl;
         }
 
         const updatedCar = await Car.findByIdAndUpdate(req.params.id, updateData, { new: true });
